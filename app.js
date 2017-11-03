@@ -1,6 +1,6 @@
 const Hapi = require('hapi');
 
-const server = new Hapi.Server();
+const server = new Hapi.Server(+process.env.PORT, '0.0.0.0');
 server.connection({
   port: 7777,
   host: 'localhost',
@@ -25,6 +25,19 @@ server.route({
   handler: function(request, reply) {
     return reply(`Hello, ${request.params}`);
   },
+});
+
+server.register(require('inert'), err => {
+  if (err) {
+    throw err;
+  }
+  server.route({
+    method: 'GET',
+    path: '/about',
+    handler: function(request, reply) {
+      return reply.file('./public/about.html');
+    },
+  });
 });
 
 server.start(err => {
