@@ -8,9 +8,22 @@ server.connection({
 
 server.route({
   method: 'GET',
-  path: '/hello',
+  path: '/phone',
   handler: function(request, reply) {
-    return reply('hello world');
+    const data = {
+      brand: 'Apple',
+      model: 'iPhone',
+      version: 'X',
+    };
+    return reply(JSON.stringify(data));
+  },
+});
+
+server.route({
+  method: 'GET',
+  path: '/user/{name}',
+  handler: function(request, reply) {
+    return reply(`Hello, ${request.params}`);
   },
 });
 
